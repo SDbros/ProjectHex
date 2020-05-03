@@ -14,8 +14,7 @@ public class Fractal : MonoBehaviour
     private void InitializeMaterials()
     {
         materials = new Material[maxDepth + 1];
-        for (int i = 0; i <= maxDepth; i++)
-        {
+        for (int i = 0; i <= maxDepth; i++) {
             float t = i / (maxDepth - 1f);
             t *= t;
             materials[i] = new Material(material);
@@ -25,15 +24,13 @@ public class Fractal : MonoBehaviour
     }
     private void Start()
     {
-        if (materials == null)
-        {
+        if (materials == null) {
             InitializeMaterials();
         }
         gameObject.AddComponent<MeshFilter>().mesh = mesh;
         gameObject.AddComponent<MeshRenderer>().material = materials[depth];
 
-        if (depth < maxDepth)
-        {
+        if (depth < maxDepth) {
             StartCoroutine(CreateChildren());
         }
     }
@@ -72,8 +69,7 @@ public class Fractal : MonoBehaviour
 
     private IEnumerator CreateChildren()
     {
-        for (int i = 0; i < ChildDirections.Length; i++)
-        {
+        for (int i = 0; i < ChildDirections.Length; i++) {
             yield return new WaitForSeconds(Random.Range(0.3f, 0.8f));
             new GameObject("Fractal Child").AddComponent<Fractal>().
                 Initialize(this, i);

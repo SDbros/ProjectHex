@@ -38,6 +38,10 @@ public static class HexMetrics
 	public const float waterFactor = 0.6f;
 	public const float waterBlendFactor = 1f - waterFactor;
 
+	public const int hashGridSize = 256;
+	static HexHash[] hashGrid;
+	public const float hashGridScale = 0.25f;
+
 	static Vector3[] corners = {
 		new Vector3(0f, 0f, outerRadius),
 		new Vector3(innerRadius, 0f, 0.5f * outerRadius),
@@ -48,6 +52,11 @@ public static class HexMetrics
 		new Vector3(0f, 0f, outerRadius)
 	};
 
+	static float[][] featureThresholds = {
+		new float[] {0.0f, 0.0f, 0.4f},
+		new float[] {0.0f, 0.4f, 0.6f},
+		new float[] {0.4f, 0.6f, 0.8f}
+	};
 	public static Vector3 GetFirstCorner(HexDirection direction)
 	{
 		return corners[(int)direction];
@@ -84,15 +93,13 @@ public static class HexMetrics
 	}
 	public static HexEdgeType GetEdgeType(int elevation1, int elevation2)
 	{
-		if (elevation1 == elevation2)
-		{
+		if (elevation1 == elevation2) {
 			return HexEdgeType.Flat;
 		}
 
 		int delta = elevation2 - elevation1;
 
-		if (delta == 1 || delta == -1)
-		{
+		if (delta == 1 || delta == -1) {
 			return HexEdgeType.Slope;
 		}
 
@@ -117,7 +124,6 @@ public static class HexMetrics
 	{
 		return corners[(int)direction] * waterFactor;
 	}
-
 	public static Vector3 GetSecondWaterCorner(HexDirection direction)
 	{
 		return corners[(int)direction + 1] * waterFactor;
@@ -125,5 +131,33 @@ public static class HexMetrics
 	public static Vector3 GetWaterBridge(HexDirection direction)
 	{
 		return (corners[(int)direction] + corners[(int)direction + 1]) * waterBlendFactor;
+	}
+	public static void InitializeHashGrid(int seed)
+	{
+		hashGrid = new HexHash[hashGridSize * hashGridSize];
+		Random.State currentState = Random.state;
+		Random.InitState(seed);
+		for (int i = 0; i < hashGrid.Length; i++) {
+			hashGrid[i] = HexHash.Create();
+		}
+		Random.state = currentState;
+	}
+
+	public static HexHash SampleHashGrid(Vector3 position)
+	{
+		int x = (int)(position.x * hashGridScale) % hashGridSize;
+		if (x < 0) {
+			x += hashGridSize;
+		}
+		int z = (int)(position.z * hashGridScale) % hashGridSize;
+		if (z < 0) {
+			z += hashGridSize;
+		}
+		return hashGrid[x + z * hashGridSize];
+	}
+
+	public static float[] GetFeatureThresholds(int level)
+	{
+		return featureThresholds[level];
 	}
 }

@@ -15,12 +15,10 @@ public class Clock : MonoBehaviour
 
     void Update()
     {
-        if (continuous)
-        {
+        if (continuous) {
             UpdateContinuous();
         }
-        else
-        {
+        else {
             UpdateDiscrete();
         }
     }
