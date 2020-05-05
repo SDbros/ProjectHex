@@ -3,6 +3,8 @@
 public class HexFeatureManager : MonoBehaviour
 {
     public HexFeatureCollection[] urbanCollections, farmCollections, plantCollections;
+    public HexMesh walls;
+
     Transform container;
 
     public void Clear()
@@ -12,9 +14,13 @@ public class HexFeatureManager : MonoBehaviour
         }
         container = new GameObject("Features Container").transform;
         container.SetParent(transform, false);
+
+        walls.Clear();
     }
 
-    public void Apply() { }
+    public void Apply() {
+        walls.Apply();
+    }
 
     public void AddFeature(HexCell cell, Vector3 position)
     {
@@ -66,5 +72,34 @@ public class HexFeatureManager : MonoBehaviour
             }
         }
         return null;
+    }
+    public void AddWall(EdgeVertices near, HexCell nearCell, EdgeVertices far, HexCell farCell)
+    {
+        if (nearCell.Walled != farCell.Walled) {
+            AddWallSegment(near.v1, far.v1, near.v5, far.v5);
+        }
+    }
+
+    void AddWallSegment(Vector3 nearLeft, Vector3 farLeft, Vector3 nearRight, Vector3 farRight)
+    {
+        Vector3 left = Vector3.Lerp(nearLeft, farLeft, 0.5f);
+        Vector3 right = Vector3.Lerp(nearRight, farRight, 0.5f);
+
+        Vector3 leftThicknessOffset = HexMetrics.WallThicknessOffset(nearLeft, farLeft);
+        Vector3 rightThicknessOffset = HexMetrics.WallThicknessOffset(nearRight, farRight);
+
+        Vector3 v1, v2, v3, v4;
+        v1 = v3 = left - leftThicknessOffset;
+        v2 = v4 = right - rightThicknessOffset;
+        v3.y = v4.y = left.y + HexMetrics.wallHeight;
+        walls.AddQuad(v1, v2, v3, v4);
+        Vector3 t1 = v3, t2 = v4;
+
+        v1 = v3 = left + leftThicknessOffset;
+        v2 = v4 = right + rightThicknessOffset;
+        v3.y = v4.y = left.y + HexMetrics.wallHeight;
+        walls.AddQuad(v2, v1, v4, v3);
+        walls.AddQuad(t1, t2, v3, v4);
+
     }
 }

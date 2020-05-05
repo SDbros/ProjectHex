@@ -200,7 +200,6 @@ public class HexCell : MonoBehaviour
             }
         }
     }
-
     public int PlantLevel
     {
         get
@@ -215,7 +214,23 @@ public class HexCell : MonoBehaviour
             }
         }
     }
+    public bool Walled
+    {
+        get
+        {
+            return walled;
+        }
+        set
+        {
+            if (walled != value) {
+                walled = value;
+                Refresh();
+            }
+        }
+    }
+
     Color color;
+    bool walled;
 
     int elevation = int.MinValue;
     int waterLevel;
