@@ -11,12 +11,10 @@ public class HexCell : MonoBehaviour
 
     public Color Color
     {
-        get
-        {
+        get {
             return color;
         }
-        set
-        {
+        set {
             if (color == value) {
                 return;
             }
@@ -26,12 +24,10 @@ public class HexCell : MonoBehaviour
     }
     public int Elevation
     {
-        get
-        {
+        get {
             return elevation;
         }
-        set
-        {
+        set {
             if (elevation == value) {
                 return;
             }
@@ -57,12 +53,10 @@ public class HexCell : MonoBehaviour
     }
     public int WaterLevel
     {
-        get
-        {
+        get {
             return waterLevel;
         }
-        set
-        {
+        set {
             if (waterLevel == value) {
                 return;
             }
@@ -73,50 +67,43 @@ public class HexCell : MonoBehaviour
     }
     public bool IsUnderwater
     {
-        get
-        {
+        get {
             return waterLevel > elevation;
         }
     }
     public bool HasIncomingRiver
     {
-        get
-        {
+        get {
             return hasIncomingRiver;
         }
     }
     public bool HasOutgoingRiver
     {
-        get
-        {
+        get {
             return hasOutgoingRiver;
         }
     }
     public bool HasRiver
     {
-        get
-        {
+        get {
             return hasIncomingRiver || hasOutgoingRiver;
         }
     }
     public bool HasRiverBeginOrEnd
     {
-        get
-        {
+        get {
             return hasIncomingRiver != hasOutgoingRiver;
         }
     }
     public HexDirection RiverBeginOrEndDirection
     {
-        get
-        {
+        get {
             return hasIncomingRiver ? incomingRiver : outgoingRiver;
         }
     }
     public bool HasRoads
     {
-        get
-        {
+        get {
             for (int i = 0; i < roads.Length; i++) {
                 if (roads[i]) {
                     return true;
@@ -127,29 +114,25 @@ public class HexCell : MonoBehaviour
     }
     public HexDirection IncomingRiver
     {
-        get
-        {
+        get {
             return incomingRiver;
         }
     }
     public HexDirection OutgoingRiver
     {
-        get
-        {
+        get {
             return outgoingRiver;
         }
     }
     public Vector3 Position
     {
-        get
-        {
+        get {
             return transform.localPosition;
         }
     }
     public float StreamBedY
     {
-        get
-        {
+        get {
             return
                 (elevation + HexMetrics.streamBedElevationOffset) *
                 HexMetrics.elevationStep;
@@ -157,16 +140,14 @@ public class HexCell : MonoBehaviour
     }
     public float RiverSurfaceY
     {
-        get
-        {
+        get {
             return
                 (elevation + HexMetrics.waterElevationOffset) * HexMetrics.elevationStep;
         }
     }
     public float WaterSurfaceY
     {
-        get
-        {
+        get {
             return
                 (waterLevel + HexMetrics.waterElevationOffset) *
                 HexMetrics.elevationStep;
@@ -174,12 +155,10 @@ public class HexCell : MonoBehaviour
     }
     public int UrbanLevel
     {
-        get
-        {
+        get {
             return urbanLevel;
         }
-        set
-        {
+        set {
             if (urbanLevel != value) {
                 urbanLevel = value;
                 RefreshSelfOnly();
@@ -188,12 +167,10 @@ public class HexCell : MonoBehaviour
     }
     public int FarmLevel
     {
-        get
-        {
+        get {
             return farmLevel;
         }
-        set
-        {
+        set {
             if (farmLevel != value) {
                 farmLevel = value;
                 RefreshSelfOnly();
@@ -202,12 +179,10 @@ public class HexCell : MonoBehaviour
     }
     public int PlantLevel
     {
-        get
-        {
+        get {
             return plantLevel;
         }
-        set
-        {
+        set {
             if (plantLevel != value) {
                 plantLevel = value;
                 RefreshSelfOnly();
@@ -216,12 +191,10 @@ public class HexCell : MonoBehaviour
     }
     public bool Walled
     {
-        get
-        {
+        get {
             return walled;
         }
-        set
-        {
+        set {
             if (walled != value) {
                 walled = value;
                 Refresh();

@@ -17,7 +17,6 @@ public class HexGridChunk : MonoBehaviour
         cells = new HexCell[HexMetrics.chunkSizeX * HexMetrics.chunkSizeZ];
         ShowUI(false);
     }
-
     public void AddCell(int index, HexCell cell)
     {
         cells[index] = cell;
@@ -25,23 +24,19 @@ public class HexGridChunk : MonoBehaviour
         cell.transform.SetParent(transform, false);
         cell.uiRect.SetParent(gridCanvas.transform, false);
     }
-
     public void Refresh()
     {
         enabled = true;
     }
-
     public void ShowUI(bool visible)
     {
         gridCanvas.gameObject.SetActive(visible);
     }
-
     void LateUpdate()
     {
         Triangulate();
         enabled = false;
     }
-
     public void Triangulate()
     {
         terrain.Clear();
@@ -339,7 +334,10 @@ public class HexGridChunk : MonoBehaviour
         bridge.y = neighbor.Position.y - cell.Position.y;
         EdgeVertices e2 = new EdgeVertices(e1.v1 + bridge, e1.v5 + bridge);
 
-        if (cell.HasRiverThroughEdge(direction)) {
+        bool hasRiver = cell.HasRiverThroughEdge(direction);
+        bool hasRoad = cell.HasRoadThroughEdge(direction);
+
+        if (hasRiver) {
             e2.v3.y = neighbor.StreamBedY;
             if (!cell.IsUnderwater) {
                 if (!neighbor.IsUnderwater) {
@@ -354,13 +352,13 @@ public class HexGridChunk : MonoBehaviour
             }
         }
         if (cell.GetEdgeType(direction) == HexEdgeType.Slope) {
-            TriangulateEdgeTerraces(e1, cell, e2, neighbor, cell.HasRoadThroughEdge(direction));
+            TriangulateEdgeTerraces(e1, cell, e2, neighbor, hasRoad);
         }
         else {
-            TriangulateEdgeStrip(e1, cell.Color, e2, neighbor.Color, cell.HasRoadThroughEdge(direction));
+            TriangulateEdgeStrip(e1, cell.Color, e2, neighbor.Color, hasRoad);
         }
 
-        features.AddWall(e1, cell, e2, neighbor);
+        features.AddWall(e1, cell, e2, neighbor, hasRiver, hasRoad);
 
         HexCell nextNeighbor = cell.GetNeighbor(direction.Next());
 
@@ -438,6 +436,7 @@ public class HexGridChunk : MonoBehaviour
                 bottomCell.Color, leftCell.Color, rightCell.Color
             );
         }
+        features.AddWall(bottom, bottomCell, left, leftCell, right, rightCell);
     }
     void TriangulateEdgeTerraces(EdgeVertices begin, HexCell beginCell, EdgeVertices end, HexCell endCell, bool hasRoad)
     {

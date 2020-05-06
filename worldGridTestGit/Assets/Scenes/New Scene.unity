@@ -8809,7 +8809,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stickMinZoom: -500
-  stickMaxZoom: 0
+  stickMaxZoom: -45
   swivelMinZoom: 90
   swivelMaxZoom: 45
   moveSpeedMinZoom: 600
@@ -10786,5 +10786,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 692a56462041b644a9a0ea8a5b70ca11, type: 2}
+    - target: {fileID: 9168927773098132953, guid: 1fe1c41a8703ec140a40e129e396bbf4,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fe1c41a8703ec140a40e129e396bbf4, type: 3}

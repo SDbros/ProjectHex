@@ -9,24 +9,21 @@ public struct HexCoordinates
 
     public int X
     {
-        get
-        {
+        get {
             return x;
         }
     }
 
     public int Z
     {
-        get
-        {
+        get {
             return z;
         }
     }
 
     public int Y
     {
-        get
-        {
+        get {
             return -X - Z;
         }
     }
