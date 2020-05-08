@@ -15,12 +15,12 @@ public class HexMapEditor : MonoBehaviour
     Color activeColor;
 
     int brushSize;
-    int activeUrbanLevel, activeFarmLevel, activePlantLevel;
+    int activeUrbanLevel, activeFarmLevel, activePlantLevel, activeSpecialIndex;
 
     bool applyColor = false;
     bool applyElevation = false;
     bool applyWaterLevel = false;
-    bool applyUrbanLevel, applyFarmLevel, applyPlantLevel;
+    bool applyUrbanLevel, applyFarmLevel, applyPlantLevel, applySpecialIndex;
 
     enum OptionalToggle
     {
@@ -149,6 +149,9 @@ public class HexMapEditor : MonoBehaviour
             if (applyWaterLevel) {
                 cell.WaterLevel = activeWaterLevel;
             }
+            if (applySpecialIndex) {
+                cell.SpecialIndex = activeSpecialIndex;
+            }
             if (applyUrbanLevel) {
                 cell.UrbanLevel = activeUrbanLevel;
             }
@@ -207,5 +210,14 @@ public class HexMapEditor : MonoBehaviour
     public void SetWalledMode(int mode)
     {
         walledMode = (OptionalToggle)mode;
+    }
+    public void SetApplySpecialIndex(bool toggle)
+    {
+        applySpecialIndex = toggle;
+    }
+
+    public void SetSpecialIndex(Slider index)
+    {
+        activeSpecialIndex = (int)index.value;
     }
 }
