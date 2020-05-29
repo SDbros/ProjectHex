@@ -191,7 +191,7 @@ public class HexGridChunk : MonoBehaviour
         else if (cell.IncomingRiver == cell.OutgoingRiver.Opposite()) {
             Vector3 corner;
             if (previousHasRiver) {
-                if (!hasRoadThroughEdge &&  !cell.HasRoadThroughEdge(direction.Next())) {
+                if (!hasRoadThroughEdge && !cell.HasRoadThroughEdge(direction.Next())) {
                     return;
                 }
                 corner = HexMetrics.GetSecondSolidCorner(direction);
@@ -234,7 +234,7 @@ public class HexGridChunk : MonoBehaviour
             else {
                 middle = direction;
             }
-            if (!cell.HasRoadThroughEdge(middle) &&  !cell.HasRoadThroughEdge(middle.Previous()) && !cell.HasRoadThroughEdge(middle.Next())) {
+            if (!cell.HasRoadThroughEdge(middle) && !cell.HasRoadThroughEdge(middle.Previous()) && !cell.HasRoadThroughEdge(middle.Next())) {
                 return;
             }
             Vector3 offset = HexMetrics.GetSolidEdgeMiddle(middle);
