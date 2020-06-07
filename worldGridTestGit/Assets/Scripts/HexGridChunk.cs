@@ -15,7 +15,7 @@ public class HexGridChunk : MonoBehaviour
         gridCanvas = GetComponentInChildren<Canvas>();
 
         cells = new HexCell[HexMetrics.chunkSizeX * HexMetrics.chunkSizeZ];
-        ShowUI(false);
+        ShowUI(true);
     }
     public void AddCell(int index, HexCell cell)
     {
@@ -30,7 +30,12 @@ public class HexGridChunk : MonoBehaviour
     }
     public void ShowUI(bool visible)
     {
-        gridCanvas.gameObject.SetActive(visible);
+        try {
+            gridCanvas.gameObject.SetActive(visible);
+        }
+        catch (System.Exception) {
+            Debug.LogError("NullPointerExeption When Creating Hex labels");
+        }
     }
     void LateUpdate()
     {
