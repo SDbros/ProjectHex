@@ -18,7 +18,6 @@ public static class HexMetrics
 
     //Color
     public const float blendFactor = 1f - solidFactor;
-    public static Color[] colors;
 
     //Terraces
     public const float elevationStep = 3f;

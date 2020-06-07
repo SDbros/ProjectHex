@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.IO;
+﻿using System.IO;
+using UnityEngine;
 
 public class HexCell : MonoBehaviour
 {
@@ -10,13 +10,6 @@ public class HexCell : MonoBehaviour
 
     public HexGridChunk chunk;
 
-    public Color Color
-    {
-        get {
-            return HexMetrics.colors[terrainTypeIndex];
-        }
-
-    }
     public int TerrainTypeIndex
     {
         get {

@@ -1,13 +1,11 @@
-﻿using UnityEngine;
+﻿using System.IO;
+using UnityEngine;
 using UnityEngine.UI;
-using System.IO;
 
 public class HexGrid : MonoBehaviour
 {
 
     int chunkCountX, chunkCountZ;
-
-    public Color[] colors;
 
     public HexCell cellPrefab;
     public Text cellLabelPrefab;
@@ -23,11 +21,11 @@ public class HexGrid : MonoBehaviour
     {
         HexMetrics.noiseSource = noiseSource;
         HexMetrics.InitializeHashGrid(seed);
-        HexMetrics.colors = colors;
         CreateMap(cellCountX, cellCountZ);
     }
 
-    public bool CreateMap(int x, int z) {
+    public bool CreateMap(int x, int z)
+    {
         if (x <= 0 || x % HexMetrics.chunkSizeX != 0 || z <= 0 || z % HexMetrics.chunkSizeZ != 0) {
             Debug.LogError("Unsupported map size.");
             return false;
@@ -57,7 +55,6 @@ public class HexGrid : MonoBehaviour
         if (!HexMetrics.noiseSource) {
             HexMetrics.noiseSource = noiseSource;
             HexMetrics.InitializeHashGrid(seed);
-            HexMetrics.colors = colors;
         }
     }
     public void ShowUI(bool visible)
