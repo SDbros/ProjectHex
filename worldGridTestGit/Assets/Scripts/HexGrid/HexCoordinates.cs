@@ -33,12 +33,10 @@ public struct HexCoordinates
         this.x = x;
         this.z = z;
     }
-
     public static HexCoordinates FromOffsetCoordinates(int x, int z)
     {
         return new HexCoordinates(x - z / 2, z);
     }
-
     public static HexCoordinates FromPosition(Vector3 position)
     {
         float x = position.x / (HexMetrics.innerRadius * 2f);
@@ -67,14 +65,19 @@ public struct HexCoordinates
 
         return new HexCoordinates(iX, iZ);
     }
-
     public override string ToString()
     {
         return "(" + X.ToString() + ", " + Y.ToString() + ", " + Z.ToString() + ")";
     }
-
     public string ToStringOnSeparateLines()
     {
         return X.ToString() + "\n" + Y.ToString() + "\n" + Z.ToString();
+    }
+    public int DistanceTo(HexCoordinates other)
+    {
+        return 
+            ((x < other.x ? other.x - x : x - other.x) +
+            (Y < other.Y ? other.Y - Y : Y - other.Y) +
+            (z < other.z ? other.z - z : z - other.z)) / 2;
     }
 }

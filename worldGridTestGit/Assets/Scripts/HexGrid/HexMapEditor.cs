@@ -6,6 +6,7 @@ public class HexMapEditor : MonoBehaviour
 {
 
     public HexGrid hexGrid;
+    public Material terrainMaterial;
 
     int activeElevation;
     int activeWaterLevel;
@@ -17,6 +18,7 @@ public class HexMapEditor : MonoBehaviour
     bool applyElevation = false;
     bool applyWaterLevel = false;
     bool applyUrbanLevel, applyFarmLevel, applyPlantLevel, applySpecialIndex;
+    bool editMode;
 
     enum OptionalToggle
     {
@@ -28,6 +30,12 @@ public class HexMapEditor : MonoBehaviour
     bool isDrag;
     HexDirection dragDirection;
     HexCell previousCell;
+
+    void Awake()
+    {
+        terrainMaterial.EnableKeyword("GRID_ON");
+        editMode = true;
+    }
     public void SetTerrainTypeIndex(int index)
     {
         activeTerrainTypeIndex = index;
@@ -60,10 +68,6 @@ public class HexMapEditor : MonoBehaviour
     {
         roadMode = (OptionalToggle)mode;
     }
-    public void ShowUI(bool visible)
-    {
-        hexGrid.ShowUI(visible);
-    }
     void Update()
     {
         if (
@@ -82,13 +86,21 @@ public class HexMapEditor : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(inputRay, out hit)) {
             HexCell currentCell = hexGrid.GetCell(hit.point);
+
             if (previousCell && previousCell != currentCell) {
                 ValidateDrag(currentCell);
             }
             else {
                 isDrag = false;
             }
-            EditCells(currentCell);
+
+            if (editMode) {
+                EditCells(currentCell);
+            }
+            else {
+                hexGrid.FindDistancesTo(currentCell);
+            }
+
             previousCell = currentCell;
         }
         else {
@@ -207,5 +219,18 @@ public class HexMapEditor : MonoBehaviour
     {
         activeSpecialIndex = (int)index.value;
     }
-
+    public void ShowGrid(bool visible)
+    {
+        if (visible) {
+            terrainMaterial.EnableKeyword("GRID_ON");
+        }
+        else {
+            terrainMaterial.DisableKeyword("GRID_ON");
+        }
+    }
+    public void SetEditMode(bool toggle)
+    {
+        editMode = toggle;
+        hexGrid.ShowUI(!toggle);
+    }
 }

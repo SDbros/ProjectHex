@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HexCell : MonoBehaviour
 {
@@ -212,7 +213,16 @@ public class HexCell : MonoBehaviour
             return specialIndex > 0;
         }
     }
-
+    public int Distance
+    {
+        get {
+            return distance;
+        }
+        set {
+            distance = value;
+            UpdateDistanceLabel();
+        }
+    }
     bool walled;
 
     int terrainTypeIndex;
@@ -220,6 +230,7 @@ public class HexCell : MonoBehaviour
     int waterLevel;
     int urbanLevel, farmLevel, plantLevel;
     int specialIndex;
+    int distance;
 
     bool hasIncomingRiver, hasOutgoingRiver;
     HexDirection incomingRiver, outgoingRiver;
@@ -247,9 +258,7 @@ public class HexCell : MonoBehaviour
     }
     public HexEdgeType GetEdgeType(HexCell otherCell)
     {
-        return HexMetrics.GetEdgeType(
-            elevation, otherCell.elevation
-        );
+        return HexMetrics.GetEdgeType(elevation, otherCell.elevation);
     }
     public bool HasRiverThroughEdge(HexDirection direction)
     {
@@ -386,7 +395,11 @@ public class HexCell : MonoBehaviour
         uiPosition.z = -position.y;
         uiRect.localPosition = uiPosition;
     }
-
+    void UpdateDistanceLabel()
+    {
+        Text label = uiRect.GetComponent<Text>();
+        label.text = distance == int.MaxValue ? "" : distance.ToString();
+    }
     public void Save(BinaryWriter writer)
     {
         writer.Write((byte)terrainTypeIndex);
@@ -408,7 +421,6 @@ public class HexCell : MonoBehaviour
             writer.Write(roads[i]);
         }
     }
-
     public void Load(BinaryReader reader)
     {
         terrainTypeIndex = reader.ReadByte();
