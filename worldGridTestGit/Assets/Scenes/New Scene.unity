@@ -15509,5 +15509,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hex Grid Chunk
       objectReference: {fileID: 0}
+    - target: {fileID: 9168927773098132953, guid: 1fe1c41a8703ec140a40e129e396bbf4,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1898e7bc099ca4ac7b3cde78088ff4ea, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fe1c41a8703ec140a40e129e396bbf4, type: 3}

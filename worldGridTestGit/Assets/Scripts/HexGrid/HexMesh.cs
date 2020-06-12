@@ -94,7 +94,7 @@ public class HexMesh : MonoBehaviour
     public void AddTriangleColor(Color c1, Color c2, Color c3)
     {
         colors.Add(c1);
-        colors.Add(c2); 
+        colors.Add(c2);
         colors.Add(c3);
     }
     public void AddQuad(Vector3 v1, Vector3 v2, Vector3 v3, Vector3 v4)
