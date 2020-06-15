@@ -220,7 +220,6 @@ public class HexCell : MonoBehaviour
         }
         set {
             distance = value;
-            UpdateDistanceLabel();
         }
     }
     public HexCell PathFrom { get; set; }
@@ -232,9 +231,9 @@ public class HexCell : MonoBehaviour
         }
     }
     public HexCell NextWithSamePriority { get; set; }
+    public int SearchPhase { get; set; }
 
     bool walled;
-
     int terrainTypeIndex;
     int elevation = int.MinValue;
     int waterLevel;
@@ -405,11 +404,6 @@ public class HexCell : MonoBehaviour
         uiPosition.z = -position.y;
         uiRect.localPosition = uiPosition;
     }
-    void UpdateDistanceLabel()
-    {
-        Text label = uiRect.GetComponent<Text>();
-        label.text = distance == int.MaxValue ? "" : distance.ToString();
-    }
     public void Save(BinaryWriter writer)
     {
         writer.Write((byte)terrainTypeIndex);
@@ -453,7 +447,6 @@ public class HexCell : MonoBehaviour
             roads[i] = reader.ReadBoolean();
         }
     }
-
     public void DisableHighlight()
     {
         Image highlight = uiRect.GetChild(0).GetComponent<Image>();
@@ -464,5 +457,10 @@ public class HexCell : MonoBehaviour
         Image highlight = uiRect.GetChild(0).GetComponent<Image>();
         highlight.color = color;
         highlight.enabled = true;
+    }
+    public void SetLabel(string text)
+    {
+        Text label = uiRect.GetComponent<Text>();
+        label.text = text;
     }
 }
