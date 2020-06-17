@@ -23,7 +23,12 @@ public class HexGrid : MonoBehaviour
     HexGridChunk[] chunks;
     HexCellPriorityQueue searchFrontier;
     List<HexUnit> units = new List<HexUnit>();
-
+    public bool HasPath
+    {
+        get {
+            return currentPathExists;
+        }
+    }
     void Awake()
     {
         HexMetrics.noiseSource = noiseSource;
@@ -102,6 +107,14 @@ public class HexGrid : MonoBehaviour
             return null;
         }
         return cells[x + z * cellCountX];
+    }
+    public HexCell GetCell(Ray ray)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit)) {
+            return GetCell(hit.point);
+        }
+        return null;
     }
     void CreateCells()
     {
@@ -244,7 +257,7 @@ public class HexGrid : MonoBehaviour
                 if (neighbor == null || neighbor.SearchPhase > searchFrontierPhase) {
                     continue;
                 }
-                if (neighbor.IsUnderwater) {
+                if (neighbor.IsUnderwater || neighbor.Unit) {
                     continue;
                 }
 
@@ -306,7 +319,7 @@ public class HexGrid : MonoBehaviour
         currentPathFrom.EnableHighlight(Color.blue);
         currentPathTo.EnableHighlight(Color.red);
     }
-    void ClearPath()
+    public void ClearPath()
     {
         if (currentPathExists) {
             HexCell current = currentPathTo;
