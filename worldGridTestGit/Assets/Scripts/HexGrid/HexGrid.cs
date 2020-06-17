@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ public class HexGrid : MonoBehaviour
     HexCell currentPathFrom, currentPathTo;
     bool currentPathExists;
 
+    public HexUnit unitPrefab;
     public HexCell cellPrefab;
     public Text cellLabelPrefab;
     public Texture2D noiseSource;
@@ -20,11 +22,13 @@ public class HexGrid : MonoBehaviour
     HexCell[] cells;
     HexGridChunk[] chunks;
     HexCellPriorityQueue searchFrontier;
+    List<HexUnit> units = new List<HexUnit>();
 
     void Awake()
     {
         HexMetrics.noiseSource = noiseSource;
         HexMetrics.InitializeHashGrid(seed);
+        HexUnit.unitPrefab = unitPrefab;
         CreateMap(cellCountX, cellCountZ);
     }
     public bool CreateMap(int x, int z)
@@ -35,6 +39,8 @@ public class HexGrid : MonoBehaviour
         }
 
         ClearPath();
+        ClearUnits();
+
         if (chunks != null) {
             for (int i = 0; i < chunks.Length; i++) {
                 Destroy(chunks[i].gameObject);
@@ -58,6 +64,7 @@ public class HexGrid : MonoBehaviour
         if (!HexMetrics.noiseSource) {
             HexMetrics.noiseSource = noiseSource;
             HexMetrics.InitializeHashGrid(seed);
+            HexUnit.unitPrefab = unitPrefab;
         }
     }
     public void ShowUI(bool visible)
@@ -160,10 +167,16 @@ public class HexGrid : MonoBehaviour
         for (int i = 0; i < cells.Length; i++) {
             cells[i].Save(writer);
         }
+
+        writer.Write(units.Count);
+        for (int i = 0; i < units.Count; i++) {
+            units[i].Save(writer);
+        }
     }
     public void Load(BinaryReader reader, int header)
     {
         ClearPath();
+        ClearUnits();
 
         int x = 20, z = 15;
         if (header >= 1) {
@@ -182,6 +195,13 @@ public class HexGrid : MonoBehaviour
         }
         for (int i = 0; i < chunks.Length; i++) {
             chunks[i].Refresh();
+        }
+
+        if (header >= 2) {
+            int unitCount = reader.ReadInt32();
+            for (int i = 0; i < unitCount; i++) {
+                HexUnit.Load(reader, this);
+            }
         }
     }
     public void FindPath(HexCell fromCell, HexCell toCell, int speed)
@@ -303,5 +323,24 @@ public class HexGrid : MonoBehaviour
             currentPathTo.DisableHighlight();
         }
         currentPathFrom = currentPathTo = null;
+    }
+    void ClearUnits()
+    {
+        for (int i = 0; i < units.Count; i++) {
+            units[i].Die();
+        }
+        units.Clear();
+    }
+    public void AddUnit(HexUnit unit, HexCell location, float orientation)
+    {
+        units.Add(unit);
+        unit.transform.SetParent(transform, false);
+        unit.Location = location;
+        unit.Orientation = orientation;
+    }
+    public void RemoveUnit(HexUnit unit)
+    {
+        units.Remove(unit);
+        unit.Die();
     }
 }

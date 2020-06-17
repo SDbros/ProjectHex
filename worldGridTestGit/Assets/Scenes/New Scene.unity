@@ -9541,6 +9541,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 414a0fc06528949a0baff4f719b04a4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitPrefab: {fileID: 7628081941178039703, guid: 317c20089d703cb458c554eae7ce3e07,
+    type: 3}
   cellPrefab: {fileID: 4978107404208197343, guid: 252bd3f8139f776468f7767440a9b81e,
     type: 3}
   cellLabelPrefab: {fileID: 4615594946058642996, guid: bad77450924686243aa2fe2d5be55a53,
@@ -10493,7 +10495,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.6
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2

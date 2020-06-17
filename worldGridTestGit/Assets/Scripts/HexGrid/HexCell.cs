@@ -6,9 +6,7 @@ public class HexCell : MonoBehaviour
 {
 
     public HexCoordinates coordinates;
-
     public RectTransform uiRect;
-
     public HexGridChunk chunk;
 
     public int TerrainTypeIndex
@@ -232,6 +230,7 @@ public class HexCell : MonoBehaviour
     }
     public HexCell NextWithSamePriority { get; set; }
     public int SearchPhase { get; set; }
+    public HexUnit Unit { get; set; }
 
     bool walled;
     int terrainTypeIndex;
@@ -387,11 +386,17 @@ public class HexCell : MonoBehaviour
                     neighbor.chunk.Refresh();
                 }
             }
+            if (Unit) {
+                Unit.ValidateLocation();
+            }
         }
     }
     void RefreshSelfOnly()
     {
         chunk.Refresh();
+        if (Unit) {
+            Unit.ValidateLocation();
+        }
     }
     void RefreshPosition()
     {
