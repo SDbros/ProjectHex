@@ -15507,6 +15507,16 @@ PrefabInstance:
       propertyPath: useTerrainTypes
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 418540177305768408, guid: 1fe1c41a8703ec140a40e129e396bbf4,
+        type: 3}
+      propertyPath: useCellData
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 523796787520496081, guid: 1fe1c41a8703ec140a40e129e396bbf4,
+        type: 3}
+      propertyPath: useCellData
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 695353822981218027, guid: 1fe1c41a8703ec140a40e129e396bbf4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15561,6 +15571,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1669305286121137523, guid: 1fe1c41a8703ec140a40e129e396bbf4,
+        type: 3}
+      propertyPath: useCellData
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6316796139031279707, guid: 1fe1c41a8703ec140a40e129e396bbf4,
+        type: 3}
+      propertyPath: useCellData
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7790006069086478805, guid: 1fe1c41a8703ec140a40e129e396bbf4,
+        type: 3}
+      propertyPath: useCellData
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8015611012569839068, guid: 1fe1c41a8703ec140a40e129e396bbf4,
+        type: 3}
+      propertyPath: useCellData
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8232460069944736233, guid: 1fe1c41a8703ec140a40e129e396bbf4,
         type: 3}
